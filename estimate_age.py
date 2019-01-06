@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 # ----------------------------------------------
 # Predict age
 # ----------------------------------------------
@@ -8,13 +11,14 @@ import numpy as np
 import os
 import caffe
 import glob
+import codecs
 
 # ----------------------------------------------
 # MODE
 # ----------------------------------------------
 
 DATASET_ROOT_PATH="/Volumes/TB4/Keras/"
-DATASET_SUB_PATH="Dataset/vggface2/"
+DATASET_SUB_PATH="dataset/vggface2/"
 
 # ----------------------------------------------
 # Argument
@@ -24,17 +28,17 @@ DATASET_SUB_PATH="Dataset/vggface2/"
 
 if len(sys.argv) >= 1:
   if len(sys.argv) >= 2:
-    DATASET_ROOT_PATH=sys.argv[3]
+    DATASET_ROOT_PATH=sys.argv[1]
   if len(sys.argv) >= 3:
-    if sys.argv[4]=="gpu":
+    if sys.argv[2]=="gpu":
       caffe.set_mode_gpu()
     else:
-      if(sys.argv[4]=="cpu"):
+      if(sys.argv[2]=="cpu"):
         None
       else:
-        print("argv[4] must be gpu or cpu")
+        print("argv[2] must be gpu or cpu")
 else:
-  print("usage: python calculate_age.py [datasetroot(optional)] [gpu/cpu(optional)]")
+  print("usage: python estimate_age.py [datasetroot(optional)] [gpu/cpu(optional)]")
   sys.exit(1)
 
 # ----------------------------------------------
@@ -70,7 +74,7 @@ def calc_age(image):
 # FileList
 # ----------------------------------------------
 
-lines=open(DATASET_ROOT_PATH+DATASET_SUB_PATH+"identity_meta.csv").readlines()
+lines=codecs.open(DATASET_ROOT_PATH+DATASET_SUB_PATH+"identity_meta.csv", 'r', 'utf-8').readlines()
 
 OUTPUT_PATH=DATASET_ROOT_PATH+DATASET_SUB_PATH+"identity_meta_with_estimated_age.csv"
 if(os.path.exists(OUTPUT_PATH)):
@@ -87,7 +91,7 @@ for line in output_data:
 
 DEBUG_MODE=0	#If 1, Age estimate from one image
 
-with open(OUTPUT_PATH, mode='w') as f:
+with codecs.open(OUTPUT_PATH, 'w', 'utf-8') as f:
 	cnt=0
 	for line in lines:
 		obj=line.split(", ")
@@ -108,6 +112,7 @@ with open(OUTPUT_PATH, mode='w') as f:
 					path2=DATASET_ROOT_PATH+DATASET_SUB_PATH+"test/"+path
 				else:
 					path2=DATASET_ROOT_PATH+DATASET_SUB_PATH+"train/"+path
+				print("target folder : "+path2)
 				age_sum=0
 				age_cnt=0
 				for image_path in glob.glob(path2+"/*.jpg"):
