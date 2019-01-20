@@ -12,7 +12,9 @@ Caffe
 
 You can use estimated output below
 
-`output/identity_meta_with_estimated_age.csv`
+`estimated/identity_meta_with_estimated_age.csv`
+
+https://github.com/abars/VggFace2AgeLabel/blob/master/estimated/identity_meta_with_estimated_age.csv
 
 ## Estimation Tutorial
 
@@ -63,3 +65,12 @@ Output file is identity_meta_with_estimated_age.csv
 
 `Class_ID, Name, Sample_Num, Flag, Gender, Age`
 
+### Analyze estimated age
+
+`python analyze_estimated_age.py`
+
+### Dataset Detail
+
+Dataset include 9294 person.
+
+<img src="https://github.com/abars/VggFace2AgeLabel/blob/master/estimated/estimated_distribution.png" width="50%" height="50%">
